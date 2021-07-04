@@ -1,16 +1,25 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from './Loader'
 
-const Card = ({login}) => {
-    
-    const [fullData ,setFullData] = useState([])
+const Card = ({ login }) => {
+
+    const [fullData, setFullData] = useState([])
     const [loder, setloder] = useState(true)
 
-    const getUser = async () =>{
-        const fullData = await fetch(`https://api.github.com/users/${login}`);
-        const data1 = await fullData.json();
-        setloder(false)
-        setFullData(data1)
+    const getUser = async () => {
+        try {
+            const fullData = await fetch(`https://api.github.com/users/${login}`);
+            const data1 = await fullData.json();
+            setloder(false)
+            if(data1.status===403){
+                window.alert("You have too many times called api");
+                return;
+            }
+            setFullData(data1)
+        } catch (error) {
+            window.alert("You have too many times called api")
+
+        }
     }
 
 
@@ -19,10 +28,10 @@ const Card = ({login}) => {
     })
 
 
-    if(loder){
+    if (loder) {
         return <Loader />;
     }
-    
+
     return (
         <div className='card'>
             <div className='cardImg' style={{ backgroundImage: `url(${fullData.avatar_url})` }}></div>
@@ -30,7 +39,7 @@ const Card = ({login}) => {
                 <div className="cardDataText">
                     <h2 title='Name'>{fullData.name || "null"}</h2>
                     <p title="UserName">@{fullData.login || "null"}</p>
-                    <p><i className="fas fa-address-card" title="Bio"></i>{fullData.bio || "null" } </p>
+                    <p><i className="fas fa-address-card" title="Bio"></i>{fullData.bio || "null"} </p>
                     <p><i className="fas fa-building" title="Company"></i>&nbsp;{fullData.company || "null"}</p>
                     <p><i className="fas fa-map-marker-alt" title="Location"></i>&nbsp;{fullData.location || "null"}</p>
                 </div>

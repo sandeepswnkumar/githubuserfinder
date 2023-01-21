@@ -14,21 +14,14 @@ const Header = () => {
     const keyData = (e) => {
         if (e.key === "Enter") {
             setUserName(inputD)
-            setInputD("")
-        }
-        if (userName !== "") {
-            window.location.reload();
         }
     }
-
-
-
 
     return (
         <div>
             <h1 className='headText'>GitHub User Finder</h1>
             <div className='searchInput'>
-                <input className='inpurBox' type="text" name="search" onKeyPress={keyData} onChange={onchange} value={inputD} id="searchBox" placeholder="Search User Name..." />
+                <input autoComplete='off' className='inpurBox' type="text" name="search" onKeyUp={keyData} onChange={onchange} value={inputD} id="searchBox" placeholder="Search User Name..." />
             </div>
 
 

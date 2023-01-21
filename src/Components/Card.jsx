@@ -11,11 +11,15 @@ const Card = ({ login }) => {
             const fullData = await fetch(`https://api.github.com/users/${login}`);
             const data1 = await fullData.json();
             setloder(false)
-            if(data1.status===403){
-                window.alert("You have too many times called api");
+            if(fullData.status === 403){
+                window.alert("You have called api too many times...");
+                return;
+            }else if(fullData.status === 404){
+                window.alert("User Not Found!");
                 return;
             }
             setFullData(data1)
+            
         } catch (error) {
             window.alert("You have too many times called api")
 
@@ -25,7 +29,7 @@ const Card = ({ login }) => {
 
     useEffect(() => {
         getUser();
-    })
+    },[login]);
 
 
     if (loder) {
